@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 
 namespace Northwind.Controllers
@@ -9,6 +10,7 @@ namespace Northwind.Controllers
         private INorthwindRepository repository;
         public ProductController(INorthwindRepository repo) => repository = repo;
 
-        public IActionResult Category() => View(repository.Categories);
+        public IActionResult Category() => View(repository.Categories.OrderBy(c => c.CategoryName));
+        public IActionResult Index(int id) => View(repository.Products.Where(p => p.CategoryId == id && p.Discontinued == false).OrderBy(p => p.ProductName));
     }
 }
