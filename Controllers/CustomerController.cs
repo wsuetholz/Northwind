@@ -22,8 +22,15 @@ namespace Northwind.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.AddCustomer(customer);
-                return RedirectToAction("Index", "Home");
+                if (repository.Customers.Any(c => c.CompanyName == customer.CompanyName))
+                {
+                    ModelState.AddModelError("", "Company Name must be unique");
+                }
+                else
+                {
+                    repository.AddCustomer(customer);
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View();
         }
