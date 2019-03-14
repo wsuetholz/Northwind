@@ -15,5 +15,6 @@ namespace Northwind.Models
         public IQueryable<Category> Categories => context.Categories;
         public IQueryable<Product> Products => context.Products;
         public IQueryable<Discount> Discounts => context.Discounts;
+        public IQueryable<Customer> Customers => context.Customers;
     }
 }
