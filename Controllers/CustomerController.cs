@@ -74,7 +74,7 @@ namespace Northwind.Controllers
         }
 
         [Authorize(Roles = "Customer")]
-        public IActionResult Account() => View();
+        public IActionResult Account() => View(repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name));
 
         private void AddErrorsFromResult(IdentityResult result)
         {
