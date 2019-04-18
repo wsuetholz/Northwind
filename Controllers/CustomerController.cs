@@ -76,6 +76,14 @@ namespace Northwind.Controllers
         [Authorize(Roles = "Customer")]
         public IActionResult Account() => View(repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name));
 
+        [Authorize(Roles = "Customer"), HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Account(Customer customer)
+        {
+            // Edit customer info
+            repository.EditCustomer(customer);
+            return RedirectToAction("Index", "Home");
+        }
+
         private void AddErrorsFromResult(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
