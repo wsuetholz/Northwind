@@ -38,13 +38,27 @@ namespace Northwind.Models
 
         public CartItem AddToCart(CartItemJSON cartItemJSON)
         {
-            CartItem cartItem = new CartItem()
+            int CustomerId = context.Customers.FirstOrDefault(c => c.Email == cartItemJSON.email).CustomerID;
+            int ProductId = cartItemJSON.id;
+            // check for duplicate cart item
+            CartItem cartItem = context.CartItems.FirstOrDefault(ci => ci.ProductId == ProductId && ci.CustomerId == CustomerId);
+            if (cartItem == null)
             {
-                CustomerId = context.Customers.FirstOrDefault(c => c.Email == cartItemJSON.email).CustomerID,
-                ProductId = cartItemJSON.id,
-                Quantity = cartItemJSON.qty
-            };
-            context.Add(cartItem);
+                // this is a new cart item
+                cartItem = new CartItem()
+                {
+                    CustomerId = CustomerId,
+                    ProductId = cartItemJSON.id,
+                    Quantity = cartItemJSON.qty
+                };
+                context.Add(cartItem);
+            }
+            else
+            {
+                // for duplicate cart item, simply update the quantity
+                cartItem.Quantity += cartItemJSON.qty;
+            }
+
             context.SaveChanges();
             cartItem.Product = context.Products.Find(cartItem.ProductId);
             return cartItem;
