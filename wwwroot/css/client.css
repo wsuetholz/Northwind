@@ -16,3 +16,7 @@
     color: rgba(255,255,255,.75);
     text-decoration: none;
 }
+
+.discontinued {
+    opacity: .5;
+}
