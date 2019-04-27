@@ -55,4 +55,28 @@
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    $('#addToCart').on('click', function(){
+        $('#cartModal').modal('hide');
+        // AJAX to update database
+        $.ajax({
+            headers: { "Content-Type": "application/json" },
+            url: "../../api/addtocart",
+            type: 'post',
+            data: JSON.stringify({
+                    "id": $('#ProductId').html(),
+                    "email": $('#User').data('email'),
+                    "qty": $('#Quantity').val() 
+                }),
+            success: function (response, textStatus, jqXhr) {
+                // success
+                console.log(response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // log the error to the console
+                console.log("The following error occured: " + jqXHR.status, errorThrown);
+            }
+        });
+    });
+
 });
