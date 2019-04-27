@@ -20,9 +20,8 @@
 
         function getProducts() {
             var id = $('#product_rows').data('id');
-            alert(id);
             $.getJSON({
-                url: "../../api/product",
+                url: "../../api/category/" + id + "/product/discontinued/false",
                 success: function (response, textStatus, jqXhr) {
                     //console.log(response);
                     $('#product_rows').html("");
