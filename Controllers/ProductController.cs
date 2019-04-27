@@ -15,7 +15,7 @@ namespace Northwind.Controllers
         public IActionResult Index(int id)
         {
             ViewBag.id = id;
-            return View();
+            return View(repository.Categories.OrderBy(c => c.CategoryName));
         }
         public IActionResult Discounts() => View(repository.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now));
     }
