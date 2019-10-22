@@ -19,7 +19,7 @@ namespace Northwind.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(_repository.Customers.OrderBy(c => c.CompanyName));
         }
 
         public IActionResult Register()
