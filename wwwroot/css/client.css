@@ -1,3 +1,7 @@
 ﻿body {
     font-family: 'Fjalla One', sans-serif;
 }
+
+h1.animated {
+    display: inline-block
+}

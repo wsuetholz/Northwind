@@ -1,0 +1,21 @@
+﻿@model Northwind.Model.Entities.Contact
+
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <form method="post" asp-action="Index">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name">Contact Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter Name" />
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Email">Email Address</label>
+                <input asp-for="Email" class="form-control" placeholder="Enter Email Address" />
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Contact</button>
+    </form>

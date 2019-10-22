@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Northwind.Model.Entities.Category>
+
+@{
+    ViewData["Title"] = "Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Categories</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="list-group">
+@foreach (var item in Model) {
+
+    <a class="list-group-item list-group-item-action" href="/Product/Index/@Html.DisplayFor(modelItem => item.CategoryId)">
+        @Html.DisplayFor(modelItem => item.CategoryName) -
+        <i style="opacity:.6;">@Html.DisplayFor(modelItem => item.Description)</i>
+    </a>
+
+    }
+</div>
