@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 
@@ -7,12 +8,20 @@ namespace Northwind.Controllers
 {
     public class HomeController : Controller
     {
-        // this controller depends on the NorthwindRepository
-        private INorthwindRepository repository;
-        public HomeController(INorthwindRepository repo) => repository = repo;
+        private readonly INorthwindRepository _repository;
+        public HomeController(INorthwindRepository repo)
+        {
+            _repository = repo;
+        }
 
-        public ActionResult Index() => View(repository.Discounts
-            .Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now)
-            .Take(3));
+        public ActionResult Index()
+        {
+            var results = _repository.Discounts
+                .Where(d => d.StartTime <= DateTime.Now
+                            && d.EndTime > DateTime.Now)
+                .Take(3);
+
+            return View(results);
+        }
     }
 }

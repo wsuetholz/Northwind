@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Northwind.Migrations
 {
-    public partial class ProductDiscounts : Migration
+    public partial class AddDiscounts : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,10 +17,10 @@ namespace Northwind.Migrations
                     Code = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false),
-                    ProductID = table.Column<int>(nullable: false),
                     DiscountPercent = table.Column<decimal>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    ProductID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

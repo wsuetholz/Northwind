@@ -10,14 +10,14 @@ using Northwind.Models;
 namespace Northwind.Migrations
 {
     [DbContext(typeof(NorthwindContext))]
-    [Migration("20190314035739_customers")]
-    partial class customers
+    [Migration("20191008233602_AddDiscounts")]
+    partial class AddDiscounts
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -34,34 +34,6 @@ namespace Northwind.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Northwind.Models.Customer", b =>
-                {
-                    b.Property<int>("CustomerID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired();
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("Fax");
-
-                    b.Property<string>("Phone");
-
-                    b.Property<string>("PostalCode");
-
-                    b.Property<string>("Region");
-
-                    b.HasKey("CustomerID");
-
-                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Northwind.Models.Discount", b =>

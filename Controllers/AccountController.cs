@@ -1,55 +1,58 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Northwind.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<AppUser> userManager;
-        private SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(UserManager<AppUser> userMgr, SignInManager<AppUser> signInMgr)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
-            userManager = userMgr;
-            signInManager = signInMgr;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Login(string returnUrl)
         {
-            // return url remembers the user's original request
             ViewBag.returnUrl = returnUrl;
             return View();
         }
 
-        public ViewResult AccessDenied() => View();
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel details, string returnUrl)
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel login, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = await userManager.FindByEmailAsync(details.Email);
+                AppUser user = await _userManager.FindByEmailAsync(login.Email);
                 if (user != null)
                 {
-                    await signInManager.SignOutAsync();
-                    Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, details.Password, false, false);
+                    await _signInManager.SignOutAsync();
+
+                    SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
                     if (result.Succeeded)
                     {
                         return Redirect(returnUrl ?? "/");
                     }
+                    ModelState.AddModelError("", "Invalid user or password");
                 }
-                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
             }
-            return View(details);
+            return View(login);
         }
 
-        [Authorize]
+		public ViewResult AccessDenied() => View();
+
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
     }
