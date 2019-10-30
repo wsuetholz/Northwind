@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Northwind.Model.Context;
 using Northwind.Model.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Northwind.Model.Entities;
 
 namespace Northwind
 {
@@ -18,9 +20,21 @@ namespace Northwind
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddTransient<IProductRepository, NorthwindRepository>();
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NorthwindDatabase")));
+            services.AddIdentity<AppUser, IdentityRole>(opts =>
+            {
+                opts.User.RequireUniqueEmail = true;
+                opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+                opts.Password.RequiredUniqueChars = 1;
+            }).AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
             services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NorthwindDatabase")));
+            services.AddTransient<IProductRepository, NorthwindRepository>();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -31,8 +45,9 @@ namespace Northwind
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvcWithDefaultRoute();
+            app.UseAuthentication();
             app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
