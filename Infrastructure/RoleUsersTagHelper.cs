@@ -27,6 +27,7 @@ namespace Northwind.Infrastructure
                 foreach (var user in _userManager.Users)
                     if (user != null && await _userManager.IsInRoleAsync(user, role.Name))
                         names.Add(user.UserName);
+
             output.Content.SetContent(names.Count == 0 ? "No Users" : string.Join(", ", names));
         }
     }

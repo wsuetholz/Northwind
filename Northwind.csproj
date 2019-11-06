@@ -6,6 +6,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Migrations\Sql\Northwind_Fix-Products.sql" />
+    <None Remove="Migrations\Sql\Northwind_Populate-Categories.sql" />
+    <None Remove="Migrations\Sql\Northwind_Populate-Discounts.sql" />
+    <None Remove="Migrations\Sql\Northwind_Populate-Products.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\Sql\Northwind_Fix-Products.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Sql\Northwind_Populate-Categories.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Sql\Northwind_Populate-Discounts.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\Sql\Northwind_Populate-Products.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />

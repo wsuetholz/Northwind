@@ -10,8 +10,8 @@ using Northwind.Models;
 namespace Northwind.Migrations
 {
     [DbContext(typeof(NorthwindContext))]
-    [Migration("20191009005535_AddContacts")]
-    partial class AddContacts
+    [Migration("20191106010236_PopulateDatabase")]
+    partial class PopulateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,16 +44,48 @@ namespace Northwind.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("ContactId");
 
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("Northwind.Models.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired();
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("Email")
+                        .IsRequired();
+
+                    b.Property<string>("Fax");
+
+                    b.Property<string>("Phone");
+
+                    b.Property<string>("PostalCode");
+
+                    b.Property<string>("Region");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("Northwind.Models.Discount", b =>
                 {
-                    b.Property<int>("DiscountID")
+                    b.Property<int>("DiscountId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -65,15 +97,15 @@ namespace Northwind.Migrations
 
                     b.Property<DateTime>("EndTime");
 
-                    b.Property<int>("ProductID");
+                    b.Property<int>("ProductId");
 
                     b.Property<DateTime>("StartTime");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("DiscountID");
+                    b.HasKey("DiscountId");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Discounts");
                 });
@@ -111,7 +143,7 @@ namespace Northwind.Migrations
                 {
                     b.HasOne("Northwind.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductID")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
