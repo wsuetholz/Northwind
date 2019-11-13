@@ -16,7 +16,7 @@ namespace Northwind.Controllers
         {
             _repository = repository;
         }
-        public IActionResult Index(int id)
+        public IActionResult Index1(int id)
         {
             var products = _repository.Products;
             if (id != 0)
@@ -30,5 +30,14 @@ namespace Northwind.Controllers
         {
             return View(_repository.Categories);
         }
+
+        public IActionResult Category() => View(_repository.Categories.OrderBy(c => c.CategoryName));
+        public IActionResult Index(int id)
+        {
+            ViewBag.id = id;
+            return View(_repository.Categories.OrderBy(c => c.CategoryName));
+        }
+        public IActionResult Discounts() => View(_repository.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now));
+
     }
 }
