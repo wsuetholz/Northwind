@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Model.Entities;
@@ -23,6 +24,7 @@ namespace Northwind.Controllers
             return View(_userManager.Users);
         }
 
+        [Authorize(Roles = "Users")]
         public IActionResult Create()
         {
             return View();
@@ -117,6 +119,7 @@ namespace Northwind.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             AppUser user = await _userManager.FindByIdAsync(id);
